@@ -1,15 +1,25 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using StackF5.Data;
 using StackF5.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+    var conStrBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("DefaultConnection"));
+    conStrBuilder.Password = builder.Configuration["SecretSection:DbPassword"];
+    var connection = conStrBuilder.ConnectionString;
+    options.UseSqlServer(connection);
+
 });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
