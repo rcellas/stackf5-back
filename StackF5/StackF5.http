@@ -1,0 +1,6 @@
+@StackF5_HostAddress = http://localhost:5023
+
+GET {{StackF5_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
