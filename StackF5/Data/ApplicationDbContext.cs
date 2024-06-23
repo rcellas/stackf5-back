@@ -16,4 +16,5 @@ public class ApplicationDbContext(DbContextOptions options): DbContext(options)
     public DbSet<Comment> Comments { get; set; } = null!;
     public DbSet<Tag> Tags { get; set; } = null!;
     public DbSet<InicidenceTag> InicidenceTags { get; set; } = null!;
+    public DbSet<Image> Images { get; set; } = null!;
 }

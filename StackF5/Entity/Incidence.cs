@@ -7,8 +7,9 @@ public class Incidence
     public string Description { get; set; } = null!;
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public string? Photo { get; set; }
     
     //relations
     public List<Comment> Comments {get; set;} = new List<Comment>();
+    
+    // public List<Image> Images { get; set; } = new List<Image>();
 }
