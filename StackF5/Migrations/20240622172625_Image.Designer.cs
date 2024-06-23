@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StackF5.Data;
 
@@ -11,9 +12,11 @@ using StackF5.Data;
 namespace StackF5.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240622172625_Image")]
+    partial class Image
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,10 +67,15 @@ namespace StackF5.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("IncidenceId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IncidenceId");
 
                     b.ToTable("Images");
                 });
@@ -140,6 +148,13 @@ namespace StackF5.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("StackF5.Entity.Image", b =>
+                {
+                    b.HasOne("StackF5.Entity.Incidence", null)
+                        .WithMany("Images")
+                        .HasForeignKey("IncidenceId");
+                });
+
             modelBuilder.Entity("StackF5.Entity.InicidenceTag", b =>
                 {
                     b.HasOne("StackF5.Entity.Incidence", "Incidence")
@@ -162,6 +177,8 @@ namespace StackF5.Migrations
             modelBuilder.Entity("StackF5.Entity.Incidence", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("StackF5.Entity.Tag", b =>

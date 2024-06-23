@@ -1,29 +1,34 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using StackF5.Data;
+using StackF5.Repository.Incidence;
 using StackF5.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Configuration.AddUserSecrets<Program>();
-}
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-
     var conStrBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("DefaultConnection"));
-    conStrBuilder.Password = builder.Configuration["SecretSection:DbPassword"];
+    var dbPassword = builder.Configuration["SecretManager:DbPassword"];
+    
+    if (string.IsNullOrEmpty(dbPassword))
+    {
+        throw new ArgumentNullException("Password cannot be null or empty", nameof(dbPassword));
+    }
+
+    conStrBuilder.Password = dbPassword;
     var connection = conStrBuilder.ConnectionString;
     options.UseSqlServer(connection);
-
 });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// repository
+builder.Services.AddScoped<IIncindenceRepository,IncidenceRepository>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -35,6 +40,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
+app.MapControllers();
 app.Run();
