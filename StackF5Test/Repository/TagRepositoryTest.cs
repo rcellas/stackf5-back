@@ -49,6 +49,25 @@ public class TagRepositoryTest
     }
     
     [Fact]
+    public async Task TagRepository_GetAllTags_ShouldReturnIncludeIncidenceTags()
+    {
+        // Arrange
+        var dbContext = await GetApplicationDbContext();
+        var tagRepository = new TagRepository(dbContext);
+        string expectedName = "Testing Tag";
+
+        // Act
+        var tags = await tagRepository.GetAllTags();
+
+        // Assert
+        Assert.NotNull(tags);
+        Assert.IsType<List<Tag>>(tags);
+        Assert.NotEmpty(tags);
+        Assert.All(tags, tag => Assert.Equal(expectedName, tag.Name));
+        Assert.All(tags, tag => Assert.NotNull(tag.IncidenceTags));
+    }
+    
+    [Fact]
     public async Task TagRepository_CreateTag_ShouldReturnTagId()
     {
         var dbContext = await GetApplicationDbContext();
