@@ -116,6 +116,19 @@ public class TagRepositoryTest
         Assert.NotNull(updatedTag);
         Assert.Equal(createdTag.Name, updatedTag.Name);
     }
+    
+    [Fact]
+    public async Task TagRepository_UpdateTag_ShouldReturnThrowException_WhenTagNotExists()
+    {
+        var dbContext = await GetApplicationDbContext();
+        var tagRepository = new TagRepository(dbContext);
+        var newTag = new Tag { Name = "New Testing Tag" };
+        
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await tagRepository.UpdateTag(newTag);
+        });
+    }
 
     
 }
