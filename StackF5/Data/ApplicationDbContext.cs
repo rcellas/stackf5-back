@@ -10,6 +10,10 @@ public class ApplicationDbContext(DbContextOptions options): DbContext(options)
     {
         modelBuilder.Entity<InicidenceTag>()
             .HasKey(x => new {x.IncidenceId, x.TagId});
+        modelBuilder.Entity<Incidence>()
+            .HasMany(i => i.Comments)
+            .WithOne(c => c.Incidence)
+            .HasForeignKey(c => c.IncidenceId);
     }
     
     public DbSet<Incidence> Incidences { get; set; } = null!;

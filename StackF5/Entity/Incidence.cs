@@ -9,7 +9,7 @@ public class Incidence
     public DateTime UpdatedAt { get; set; }
     
     //relations
-    public List<Comment> Comments {get; set;} = new List<Comment>();
+    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     
     // public List<Image> Images { get; set; } = new List<Image>();
 }

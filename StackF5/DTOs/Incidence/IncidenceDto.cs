@@ -1,4 +1,5 @@
 using StackF5.DTOs.Comment;
+using DateTime = System.DateTime;
 
 namespace StackF5.DTOs.Incidence;
 
@@ -12,5 +13,5 @@ public class IncidenceDto
     public string? Photo { get; set; }
     
     //relations
-    public List<CommentDto> Comments {get; set;} = new List<CommentDto>();
+    public List<CommentDto> Comments { get; set; }= new List<CommentDto>();
 }

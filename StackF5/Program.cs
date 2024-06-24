@@ -1,6 +1,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using StackF5.Data;
+using StackF5.Repository.Comment;
 using StackF5.Repository.Incidence;
 using StackF5.Utilities;
 
@@ -24,7 +25,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // repository
-builder.Services.AddScoped<IIncindenceRepository,IncidenceRepository>();
+builder.Services.AddScoped<IIncidenceRepository,IncidenceRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
