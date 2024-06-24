@@ -44,4 +44,15 @@ public class TagRepository
         await _context.SaveChangesAsync();
     }
     
+    public async Task DeleteTag(int id)
+    {
+        var tag = await _context.Tags.FindAsync(id);
+        if (tag == null)
+        {
+            throw new InvalidOperationException("Tag not found in the database.");
+        }
+        _context.Tags.Remove(tag);
+        await _context.SaveChangesAsync();
+    }
+    
 }

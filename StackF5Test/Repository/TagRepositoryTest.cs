@@ -161,4 +161,17 @@ public class TagRepositoryTest
         Assert.Null(deletedTag);
     }
     
+    [Fact]
+    public async Task TagRepository_DeleteTag_ShouldReturnThrowException_WhenTagNotExists()
+    {
+        var dbContext = await GetApplicationDbContext();
+        var tagRepository = new TagRepository(dbContext);
+        var newTag = new Tag { Name = "New Testing Tag" };
+        
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await tagRepository.DeleteTag(newTag.Id);
+        });
+    }
+    
 }
