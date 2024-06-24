@@ -61,4 +61,22 @@ namespace StackF5Test.Controllers;
             var actualTagId = Assert.IsType<int>(okResult.Value);
             Assert.Equal(tag.Id, actualTagId);
         }
+        
+        [Fact]
+        public async Task TagController_UpdateTag_ShouldReturnOk_WhenTagIsUpdated()
+        {
+            var tag = new Tag { Id = 1, Name = "Test Tag" };
+            var tagDto = new TagDto { Id = 1, Name = "Test Tag" };
+            
+            _mockMapper.Setup(m => m.Map<Tag>(It.IsAny<TagDto>())).Returns(tag);
+            _mockRepository.Setup(repo => repo.UpdateTag(tag)).ReturnsAsync(tag.Id);
+            
+            var result = await _controller.UpdateTag(tag.Id, tagDto);
+            
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(okResult);
+            
+            var actualTagId = Assert.IsType<int>(okResult.Value);
+            Assert.Equal(tag.Id, actualTagId);
+        }
     }
