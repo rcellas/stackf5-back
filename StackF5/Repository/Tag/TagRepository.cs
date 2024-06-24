@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackF5.Data;
+using StackF5.DTOs.Tag;
 
 namespace StackF5.Repository.Tag;
 
@@ -25,6 +27,12 @@ public class TagRepository
         _context.Add(tag);
         await _context.SaveChangesAsync();
         return tag.Id;
+    }
+
+    public async Task UpdateTag(Entity.Tag tag)
+    {
+        _context.Update(tag);
+        await _context.SaveChangesAsync();
     }
     
 }
