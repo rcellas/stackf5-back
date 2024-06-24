@@ -13,7 +13,7 @@ public class TagRepository
     
     public async Task<List<Entity.Tag>> GetAllTags()
     {
-        return await _context.Tags.ToListAsync();
+        return await _context.Tags.Include(x=>x.IncidenceTags).ToListAsync();
     }
     
     public async Task<int> CreateTag(Entity.Tag tag)
