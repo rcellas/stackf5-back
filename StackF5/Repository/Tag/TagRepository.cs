@@ -5,7 +5,7 @@ using StackF5.DTOs.Tag;
 
 namespace StackF5.Repository.Tag;
 
-public class TagRepository
+public class TagRepository : ITagRepository
 {
     private readonly ApplicationDbContext _context;
     public TagRepository(ApplicationDbContext context)
