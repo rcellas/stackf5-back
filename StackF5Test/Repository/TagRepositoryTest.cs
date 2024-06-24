@@ -142,6 +142,7 @@ public class TagRepositoryTest
             await tagRepository.CreateTag(newTag);
         });
     }
+    
     [Fact]
     public async Task TagRepository_DeleteTag_ShouldReturnNoContent()
     {
@@ -153,7 +154,7 @@ public class TagRepositoryTest
         await dbContext.SaveChangesAsync();
         var createdTag = await dbContext.Tags.FindAsync(tagId);
         
-        await tagRepository.DeleteTag(tagId);
+        await tagRepository.DeleteTag(createdTag.Id);
         await dbContext.SaveChangesAsync();
         
         var deletedTag = await dbContext.Tags.FindAsync(tagId);
