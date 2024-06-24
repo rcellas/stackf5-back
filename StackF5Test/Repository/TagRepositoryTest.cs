@@ -142,6 +142,22 @@ public class TagRepositoryTest
             await tagRepository.CreateTag(newTag);
         });
     }
-
+    [Fact]
+    public async Task TagRepository_DeleteTag_ShouldReturnNoContent()
+    {
+        var dbContext = await GetApplicationDbContext();
+        var tagRepository = new TagRepository(dbContext);
+        var newTag = new Tag { Name = "New Testing Tag" };
+        var tagId = await tagRepository.CreateTag(newTag);
+        
+        await dbContext.SaveChangesAsync();
+        var createdTag = await dbContext.Tags.FindAsync(tagId);
+        
+        await tagRepository.DeleteTag(tagId);
+        await dbContext.SaveChangesAsync();
+        
+        var deletedTag = await dbContext.Tags.FindAsync(tagId);
+        Assert.Null(deletedTag);
+    }
     
 }
