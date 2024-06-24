@@ -3,7 +3,7 @@ using StackF5.Data;
 using StackF5.Entity;
 using StackF5.Repository.Tag;
 
-namespace StackF5Test;
+namespace StackF5Test.Repository;
 
 public class TagRepositoryTest
 {
@@ -64,5 +64,19 @@ public class TagRepositoryTest
         Assert.Equal(newTag.Name, createdTag.Name);
 
     }
+
+    [Fact]
+    public async Task TagRepository_CreateTag_ShouldReturnThrowException_WhenTagExists()
+    {
+        var dbContext = await GetApplicationDbContext();
+        var tagRepository = new TagRepository(dbContext);
+        var newTag = new Tag { Name = "Testing Tag" };
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await tagRepository.CreateTag(newTag);
+        });
+    }
+
     
 }
