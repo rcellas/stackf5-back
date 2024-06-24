@@ -31,7 +31,7 @@ public class TagRepositoryTest
     }
 
     [Fact]
-    public async Task GetAllTags_ShouldReturnListOfTags()
+    public async Task TagRepository_GetAllTags_ShouldReturnListOfTags()
     {
         // Arrange
         var dbContext = await GetApplicationDbContext();
@@ -47,4 +47,22 @@ public class TagRepositoryTest
        Assert.NotEmpty(tags);
        Assert.All(tags,tag => Assert.Equal(expectedName, tag.Name));
     }
+    
+    [Fact]
+    public async Task TagRepository_CreateTag_ShouldReturnTagId()
+    {
+        var dbContext = await GetApplicationDbContext();
+        var tagRepository = new TagRepository(dbContext);
+        var newTag = new Tag { Name = "New Testing Tag" };
+        
+        var tagId = await tagRepository.CreateTag(newTag);
+        await dbContext.SaveChangesAsync();
+        var createdTag = await dbContext.Tags.FindAsync(tagId);
+        
+        Assert.IsType<int>(tagId); 
+        Assert.NotNull(createdTag); 
+        Assert.Equal(newTag.Name, createdTag.Name);
+
+    }
+    
 }

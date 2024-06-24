@@ -15,4 +15,11 @@ public class TagRepository
     {
         return await _context.Tags.ToListAsync();
     }
+    
+    public async Task<int> CreateTag(Entity.Tag tag)
+    {
+        _context.Add(tag);
+        await _context.SaveChangesAsync();
+        return tag.Id;
+    }
 }
