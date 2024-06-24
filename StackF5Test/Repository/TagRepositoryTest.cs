@@ -96,6 +96,26 @@ public class TagRepositoryTest
             await tagRepository.CreateTag(newTag);
         });
     }
+    
+    [Fact]
+    public async Task TagRepository_UpdateTag_ShouldReturnNoContent()
+    {
+        var dbContext = await GetApplicationDbContext();
+        var tagRepository = new TagRepository(dbContext);
+        var newTag = new Tag { Name = "New Testing Tag" };
+        var tagId = await tagRepository.CreateTag(newTag);
+        
+        await dbContext.SaveChangesAsync();
+        var createdTag = await dbContext.Tags.FindAsync(tagId);
+        createdTag.Name = "Updated Testing Tag";
+        
+        await tagRepository.UpdateTag(createdTag);
+        await dbContext.SaveChangesAsync();
+        
+        var updatedTag = await dbContext.Tags.FindAsync(tagId);
+        Assert.NotNull(updatedTag);
+        Assert.Equal(createdTag.Name, updatedTag.Name);
+    }
 
     
 }
