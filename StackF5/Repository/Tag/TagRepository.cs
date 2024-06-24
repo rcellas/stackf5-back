@@ -36,7 +36,10 @@ public class TagRepository
         {
             throw new InvalidOperationException("Tag not found in the database.");
         }
-       
+        if (_context.Tags.Any(existingTag => existingTag.Name == tag.Name))
+        {
+            throw new InvalidOperationException("A tag with the same name already exists.");
+        }
         _context.Update(tag);
         await _context.SaveChangesAsync();
     }
