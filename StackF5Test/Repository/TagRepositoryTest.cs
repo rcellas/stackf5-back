@@ -130,5 +130,18 @@ public class TagRepositoryTest
         });
     }
 
+    [Fact]
+    public async Task TagRepository_UpdateTag_ShouldReturnThrowException_WhenTagExists()
+    {
+        var dbContext = await GetApplicationDbContext();
+        var tagRepository = new TagRepository(dbContext);
+        var newTag = new Tag { Name = "Testing Tag" };
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await tagRepository.CreateTag(newTag);
+        });
+    }
+
     
 }

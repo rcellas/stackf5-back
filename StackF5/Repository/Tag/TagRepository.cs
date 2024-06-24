@@ -31,11 +31,12 @@ public class TagRepository
 
     public async Task UpdateTag(Entity.Tag tag)
     {
-        var existingTag = await _context.Tags.FindAsync(tag.Id);
-        if (existingTag == null)
+        var notExistingTag = await _context.Tags.FindAsync(tag.Id);
+        if (notExistingTag == null)
         {
             throw new InvalidOperationException("Tag not found in the database.");
         }
+       
         _context.Update(tag);
         await _context.SaveChangesAsync();
     }
