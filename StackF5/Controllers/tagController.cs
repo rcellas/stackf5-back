@@ -25,4 +25,13 @@ namespace StackF5.Controllers;
             var tagDtos = _mapper.Map<List<TagDto>>(tags);
             return Ok(tagDtos);
         }
+        
+        [HttpPost]
+        public async Task<ActionResult> CreateTag(TagDto tagDto)
+        {
+            var tag = _mapper.Map<Entity.Tag>(tagDto);
+            var tagId = await _tagRepository.CreateTag(tag);
+            return Ok(tagId);
+        }
+
     }

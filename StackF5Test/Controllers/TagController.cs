@@ -55,7 +55,7 @@ namespace StackF5Test.Controllers;
             
             var result = await _controller.CreateTag(tagDto);
             
-            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(okResult);
             
             var actualTagId = Assert.IsType<int>(okResult.Value);
