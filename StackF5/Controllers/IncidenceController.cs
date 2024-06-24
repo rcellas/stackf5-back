@@ -9,13 +9,13 @@ namespace StackF5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IncidenceController : ControllerBase
+    public class incidenceController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IIncindenceRepository _repository;
+        private readonly IIncidenceRepository _repository;
         private readonly IMapper _mapper;
         
-        public IncidenceController(ApplicationDbContext context, IIncindenceRepository repository, IMapper mapper)
+        public incidenceController(ApplicationDbContext context, IIncidenceRepository repository, IMapper mapper)
         {
             _repository= repository;
             _context = context;
@@ -23,10 +23,10 @@ namespace StackF5.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<List<IncidenceDto>>> GetAllIncidence()
+        public async Task<ActionResult<IEnumerable<IncidenceDto>>> GetAllIncidence()
         {
             var incidences = await _repository.GetAllIncidence();
-            var incidencesDto = _mapper.Map<List<IncidenceDto>>(incidences);
+            var incidencesDto = _mapper.Map<IEnumerable<IncidenceDto>>(incidences);
             return Ok(incidencesDto);
         }
         

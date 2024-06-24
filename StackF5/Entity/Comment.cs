@@ -9,5 +9,6 @@ public class Comment
     public string? Photo { get; set; }
     
     public int IncidenceId { get; set; }
+    public Incidence Incidence { get; set; }
     
 }

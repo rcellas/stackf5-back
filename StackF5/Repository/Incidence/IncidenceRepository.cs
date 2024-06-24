@@ -4,7 +4,7 @@ using StackF5.Entity;
 
 namespace StackF5.Repository.Incidence;
 
-public class IncidenceRepository : IIncindenceRepository
+public class IncidenceRepository : IIncidenceRepository
 {
     private readonly ApplicationDbContext _context;
     
@@ -15,7 +15,7 @@ public class IncidenceRepository : IIncindenceRepository
     
     public async Task<List<Entity.Incidence>> GetAllIncidence()
     {
-        return await _context.Incidences.ToListAsync();
+        return await _context.Incidences.Include(i=>i.Comments).ToListAsync();
     }
     
     public async Task<Entity.Incidence?> GetIncidenceById(int id)
@@ -30,6 +30,11 @@ public class IncidenceRepository : IIncindenceRepository
         _context.Add(incidence);
         await _context.SaveChangesAsync();
         return incidence.Id;
+    }
+    
+    public async Task<bool> ExistIncidence(int id)
+    {
+        return await _context.Incidences.AnyAsync(x=>x.Id == id);
     }
     
     public async Task UpdateIncidence(Entity.Incidence incidence)
