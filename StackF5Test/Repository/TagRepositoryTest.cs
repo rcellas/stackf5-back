@@ -37,14 +37,14 @@ public class TagRepositoryTest
         var dbContext = await GetApplicationDbContext();
         var tagRepository = new TagRepository(dbContext);
         string expectedName = "Testing Tag";
-        int tagId = 1;
 
         // Act
-        var tags = await tagRepository.GetAllTags(tagId);
+        var tags = await tagRepository.GetAllTags();
 
         // Assert
        Assert.NotNull(tags);
-       Assert.IsType<Tag>(tags);
-       Assert.Equal(expectedName, tags.Name);
+       Assert.IsType<List<Tag>>(tags);
+       Assert.NotEmpty(tags);
+       Assert.All(tags,tag => Assert.Equal(expectedName, tag.Name));
     }
 }
