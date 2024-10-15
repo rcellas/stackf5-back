@@ -10,10 +10,15 @@ public class ApplicationDbContext(DbContextOptions options): DbContext(options)
     {
         modelBuilder.Entity<InicidenceTag>()
             .HasKey(x => new {x.IncidenceId, x.TagId});
+        modelBuilder.Entity<Incidence>()
+            .HasMany(i => i.Comments)
+            .WithOne(c => c.Incidence)
+            .HasForeignKey(c => c.IncidenceId);
     }
     
     public DbSet<Incidence> Incidences { get; set; } = null!;
     public DbSet<Comment> Comments { get; set; } = null!;
     public DbSet<Tag> Tags { get; set; } = null!;
     public DbSet<InicidenceTag> InicidenceTags { get; set; } = null!;
+    public DbSet<Image> Images { get; set; } = null!;
 }

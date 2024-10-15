@@ -14,7 +14,7 @@ public class AutoMapperProfile :Profile
         CreateMap<Comment, CommentDto>();
         
         CreateMap<CreateIncidenceDto, Incidence>();
-        CreateMap<Incidence, IncidenceDto>();
+        CreateMap<Incidence, IncidenceDto>().ForMember(des=>des.Comments, opt=>opt.MapFrom(src=>src.Comments));
 
         CreateMap<CreateTagDto, Tag>();
         CreateMap<Tag, TagDto>();
